@@ -1,0 +1,22 @@
+# Büyük veri hacmi (Database focus)
+# Bu test, büyük veri hacmi altında sistemin performansını değerlendirmek için tasarlanmıştır.
+# Bu tür testler, özellikle veri tabanı performansını ve sorgu optimizasyonunu değerlendirmek için önemlidir.
+config:
+  target: "https://httpbin.org"               # Test merkezimiz
+  phases:
+    - duration: 30                            # Test 30 saniye sürsün
+      arrivalRate: 5                          # Saniyede 5 yeni sanal kullanıcı gönder (30sn x 5 = 150 kullanıcı)
+      name: "Large Data Volume Test"          # Testin adı
+scenarios:
+  - name: "Simple GET check"                 # Senaryo adı
+    flow:                                   # Senaryonun akışı
+      - get:
+          url: "/get"                        # Nabız ölçümü yapıyoruz
+      - post:                                  # Herhangi bir POST isteği yapalım
+          url: "/post"   
+          json:                                # Gönderdiğimiz veriyi JSON formatında tanımlayalım
+            name: "Artillery"                    # İstekle birlikte gönderilecek veri (örneğin, bir isim)
+            type: "Performance Testing"          # İstekle birlikte gönderilecek veri (örneğin, bir tür)  
+          headers:                             # İstekle birlikte gönderilecek başlıklar
+            Content-Type: "application/json"     # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
+            Accept: "application/json"           # Kabul edilen içerik türü başlığı, JSON formatında yanıt beklediğimizi belirtir

@@ -1,0 +1,32 @@
+# Beklenen normal yük (Normal Rhythm)
+# Bu test, uygulamanın beklenen normal yük altında nasıl performans gösterdiğini değerlendirmek için tasarlanmıştır.
+config:
+  target: "https://httpbin.org"             # Test merkezimiz
+  phases:
+    - duration: 30                            # Test 30 saniye sürsün
+      arrivalRate: 2                          # Saniyede 2 yeni sanal kullanıcı gönder (30sn x 2 = 60 kullanıcı)
+      name: "Phase 1: Warm-up"                # Sistemin motorlarını çalıştırıyoruz (Isınma Aşaması)
+    - duration: 90                            # Test 90 saniye sürsün
+      arrivalRate: 5                          # Saniyede 5 yeni sanal kullanıcı gönder (90sn x 5 = 450 kullanıcı)
+      name: "Phase 2: Sustained Load"         # Beklenen günlük normal trafik (Steady State). Bu aşamada, sistemin normal koşullar altında nasıl performans gösterdiğini gözlemliyoruz.
+scenarios:
+  - name: "Standard User Journey"           # Senaryo adı
+    flow:                                     # Senaryonun akışı
+      - get:
+          url: "/get" 
+      - think: 2                                # Kullanıcı sayfayı inceliyor (2 saniye bekleme)                       
+      - post:                                  
+          url: "/post"   
+          json:                                   # Gönderdiğimiz veriyi JSON formatında tanımlayalım
+            name: "Artillery"                       # İstekle birlikte gönderilecek veri (örneğin, bir isim)
+            type: "Performance Testing"             # İstekle birlikte gönderilecek veri (örneğin, bir tür) 
+            action: "Normal-Flow"                   # İstekle birlikte gönderilecek veri (örneğin, bir eylem) 
+          headers:                                # İstekle birlikte gönderilecek başlıklar
+            Content-Type: "application/json"        # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
+            Accept: "application/json"              # Kabul edilen içerik türü başlığı, JSON formatında yanıt beklediğimizi belirtir
+
+# REPORT: https://app.artillery.io/share/sh_7e632d83530f30b022aceb14eafa412c9b52e1139f2287fd9fd5188e83c4569b
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o normal-usage-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_1_Load-Testing\normal-usage.yml
+
+

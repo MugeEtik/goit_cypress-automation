@@ -1,0 +1,40 @@
+config:
+  target: "https://httpbin.org"               # Test merkezimiz (anatomiyi incelediğimiz yer) 
+  phases:                                     # Testin aşamaları (farklı yük seviyeleri veya süreler için)  
+    - duration: 20                              # Test 20 saniye sürsün
+      arrivalRate: 2                              # Saniyede 2 yeni sanal kullanıcı gönder (20sn x 2 = 40 kullanıcı)
+      name: "Warm up: Artillery First Test"       # Testin adı (opsiyonel, raporlarda görünecek)
+  plugins:                                    # Artillery eklentileri (opsiyonel, özel raporlama veya entegrasyonlar için)
+    ensure: {}                                    # Performans eşikleri ve koşullarını tanımlamak için kullanılır (opsiyonel, test sonuçlarına göre başarısızlık koşulları belirleyebiliriz)  
+  ensure:                                     # Test sonrası kontroller (opsiyonel, belirli koşullar sağlanmazsa test başarısız olur)  
+    thresholds:                                 # Performans eşikleri (örneğin, yanıt süreleri, hata oranları)   
+      - http.response_time.p95: 1000              # Yüzde 95'lik yanıt süresi 1000ms'den az olmalı 
+      - http.response_time.2xx.p99: 1500          # Yüzde 99'luk 2xx yanıt süresi 1500ms'den az olmalı
+    conditions:                               # Test sonuçlarına göre başarısızlık koşulları (opsiyonel)  
+      - expression: "http.failed == 0"                                            # Hiçbir isteğin başarısız olmaması gerekiyor
+      - expression: vusers.failed == 0                                            # Hiçbir sanal kullanıcının başarısız olmaması gerekiyor
+      - expression: "http.request_rate >= 2 and http.response_time.max < 1200"     # İstek oranı en az 2/saniye ve maksimum yanıt süresi 1200ms'den az olmalı
+
+scenarios:                                   # Test senaryoları (yapılacak işlemler)
+  - name: "Simple GET check"                  # Senaryo adı (opsiyonel, raporlarda görünecek)  
+    flow:                                       # Senaryonun akışı (yapılacak işlemler)
+      - get:                                      # Herhangi bir GET isteği yapalım
+          url: "/get"                               # Nabız ölçümü yapıyoruz
+      - post:                                     # Herhangi bir POST isteği yapalım
+          url: "/post"                              # POST isteği yapacağımız URL
+          json:                                     # Gönderdiğimiz veriyi JSON formatında tanımlayalım
+            name: "Artillery"                         # İstekle birlikte gönderilecek veri (örneğin, bir isim)
+            type: "Performance Testing"               # İstekle birlikte gönderilecek veri (örneğin, bir tür)  
+          headers:                                  # İstekle birlikte gönderilecek başlıklar
+            Content-Type: "application/json"          # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
+          capture:                                  # Yanıtı yakalayarak raporlarda göstermek için
+            - json: "$.json"                          # JSON yanıtının "json" alanını yakalayalım
+              as: "responseBody"                      # Yakalanan veriyi "responseBody" olarak adlandıralım
+            - json: "$.headers.Host"                  # JSON yanıtının "headers.Host" alanını yakalayalım
+              as: "Host"                              # Yakalanan veriyi "Host" olarak adlandıralım
+      - log: "Response Body: {{ responseBody }}"    # Yakalanan yanıt gövdesini konsola yazdıralım
+      - log: "Host: {{ Host }}"                     # Yakalanan yanıt başlıklarını konsola yazdıralım
+                 
+# REPORT: https://app.artillery.io/share/sh_64e75ac12a87f44db8865055f8e6be8139e2ff4f1fa3b816e8e79d6bc7e22234
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o first-test-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_Performance-First-Test.yml

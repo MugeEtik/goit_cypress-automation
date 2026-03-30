@@ -1,0 +1,39 @@
+# Kırılma noktası analizi (Breaking Point)
+# Bu test, sistemin ne zaman ve nasıl kırılacağını belirlemek için tasarlanmıştır.
+# Test, sistemin dayanabileceği maksimum yükü bulmak için giderek artan trafik seviyeleri simüle eder.
+config:
+  target: "https://httpbin.org"               # Test merkezimiz
+  phases:
+    - duration: 10                              # Her aşama 10 saniye sürsün
+      arrivalRate: 5                            # Saniyede 5 yeni sanal kullanıcı gönder (10sn x 5 = 50 kullanıcı)
+      name: "Breaking Point Test - Phase 1"   
+    - duration: 10
+      arrivalRate: 10                           # Saniyede 10 yeni sanal kullanıcı gönder (10sn x 10 = 100 kullanıcı)
+      name: "Breaking Point Test - Phase 2"
+    - duration: 10
+      arrivalRate: 20                           # Saniyede 20 yeni sanal kullanıcı gönder (10sn x 20 = 200 kullanıcı)
+      name: "Breaking Point Test - Phase 3"
+    - duration: 10
+      arrivalRate: 40                           # Saniyede 40 yeni sanal kullanıcı gönder (10sn x 40 = 400 kullanıcı)
+      name: "Breaking Point Test - Phase 4"
+    - duration: 10
+      arrivalRate: 80                           # Saniyede 80 yeni sanal kullanıcı gönder (10sn x 80 = 800 kullanıcı)
+      name: "Breaking Point Test - Phase 5"
+
+scenarios:
+  - name: "Stress Check Journey"
+    flow:
+      - get:
+          url: "/get"
+      - post:
+          url: "/post"
+          json:
+            status: "testing_limits"
+          headers:
+            Content-Type: "application/json"
+            Accept: "application/json"
+
+# REPORT_1: https://app.artillery.io/share/sh_a3159a2bd0b2a816bb9a794df18032b9aadbb67cdfad339a602fec862f51d5c1
+# REPORT_2: https://app.artillery.io/share/sh_6f382014648298fd4d033d43879ecde8fcde3f8a59ed7d42892dda51897b3c46
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o stress-to-failure-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_2_Stress-Testing\stress-to-failure.yml

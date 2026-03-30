@@ -1,0 +1,38 @@
+# Kaynak & Ramp-up analizi = Ölçeklenebilirlik Analizi (Scalability & Linear Growth)
+# Bu test, sistemin performansını giderek artan trafik seviyeleri altında (sistemin kademeli artan yüke nasıl adapte olduğunu) analiz eder.
+# Bu tür testler, sistemin trafik artışına nasıl tepki verdiğini görmek için önemlidir.
+config:
+  target: "https://httpbin.org"
+  phases:
+    - duration: 30
+      arrivalRate: 5
+      name: "Phase 1: Warm-up"      # Isınma evresi (Sistemi hafifçe yükleyerek başlıyoruz)
+    - duration: 60
+      arrivalRate: 5
+      rampTo: 50
+      name: "Phase 2: Ramp-up"      # Yükü kademeli artırıyoruz (Sistemin artan yükle nasıl başa çıktığını gözlemliyoruz)
+    - duration: 60
+      arrivalRate: 50
+      name: "Phase 3: Peak Sustain" # Tepe noktada sistemi izliyoruz (Sistemin yüksek yük altında nasıl performans gösterdiğini analiz ediyoruz)
+    - duration: 30
+      arrivalRate: 50
+      rampTo: 5
+      name: "Phase 4: Ramp-down"    # Yükü azaltıp sistemin 'recovery' (Sakinleşme ve Toparlanma) yeteneğini ölçüyoruz (Sistemin yükten çıkarken nasıl tepki verdiğini gözlemliyoruz)
+
+scenarios:
+  - name: "Dynamic Payload Interaction"
+    flow:
+      - post:
+          url: "/post"
+          json:
+            id: "{{ $uuid() }}"                 # Her istek için benzersiz bir ID (Senior Touch)
+            data: "{{ $randomString() }}"       # Volume testing için dinamik veri
+            category: "Scalability-Test"
+          headers:
+            Content-Type: "application/json"
+            Accept: "application/json"
+
+# REPORT_1 LINK: https://app.artillery.io/share/sh_ace0520add7dcd87c5774eebcc1492d50f0766667a20bae3fe32bd88fa356566
+# REPORT_2 LINK: https://app.artillery.io/share/sh_586c916e96ef8dfe33c61736082eb0e1ee71d1c611765fdb078184cf4e3a2c02
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o scaling-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_3_Scalability-Testing\scaling-analysis.yml 

@@ -1,0 +1,13 @@
+{
+    "yaml.schemas": {
+        "https://www.artillery.io/schema.json": [
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_Performance-First-Test.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_4_Spike-Testing/spike-traffic.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_1_Load-Testing/normal-usage.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_2_Stress-Testing/stress-to-failure.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_3_Scalability-Testing/scaling-analysis.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_5_Volume-Testing/large-data-volume.yml",
+            "file:///d%3A/Projects_and_Git-Repos/GoIT_Homeworks/HW-14-19/Performance_Artillery/05_6_Endurance-Testing/marathon-soak.yml"
+        ]
+    }
+}

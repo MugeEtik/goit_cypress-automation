@@ -1,0 +1,38 @@
+# Ani patlamalar (Mızrak ucu grafiği)
+# Bu test, kısa süreli yüksek trafik patlamalarını simüle eder.
+# Bu tür testler, sistemin ani trafik artışlarına nasıl tepki verdiğini görmek için önemlidir.
+config:
+  target: "https://httpbin.org"             # Test merkezimiz
+  phases:                                   # Testin aşamaları (farklı yük seviyeleri veya süreler için) 
+    - duration: 30                            # Test 30 saniye sürsün
+      arrivalRate: 5                          # Saniyede 5 yeni sanal kullanıcı gönder (30sn x 5 = 150 kullanıcı)
+      name: "Spike Traffic Test - Ramp-up"    # Testin adı / Ramp-up aşaması (yükü kademeli artırıyoruz, normal yük seviyesine geliyoruz)
+    - duration: 10                            # Test 10 saniye sürsün
+      arrivalRate: 100                        # Saniyede 100 yeni sanal kullanıcı gönder (10sn x 100 = 1000 kullanıcı)
+      name: "Spike Traffic Test - Spike"      # Testin adı / Spike aşaması (ani patlama, normal yük seviyesinin çok üzerinde)
+    - duration: 30                            # Test 30 saniye sürsün
+      arrivalRate: 5                          # Saniyede 5 yeni sanal kullanıcı gönder (30sn x 5 = 150 kullanıcı)
+      name: "Spike Traffic Test - Ramp-down"  # Testin adı / Ramp-down aşaması (yükü kademeli azaltıyoruz, normal yük seviyesine dönüyoruz)
+
+scenarios:
+  - name: "Simple GET check"                 # Senaryo adı
+    flow:                                   
+      - get:
+          url: "/get"                        
+      - post:                                  
+          url: "/post"   
+          json:                                     # Gönderdiğimiz veriyi JSON formatında tanımlayalım
+            name: "Artillery"                         # İstekle birlikte gönderilecek veri (örneğin, bir isim)
+            type: "Performance Testing"               # İstekle birlikte gönderilecek veri (örneğin, bir tür)  
+          headers:                                  # İstekle birlikte gönderilecek başlıklar
+            Content-Type: "application/json"          # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
+            Accept: "application/json"                # Kabul edilen içerik türü başlığı, JSON formatında yanıt beklediğimizi belirtir
+
+# REPORT_1 LINK: https://app.artillery.io/share/sh_1dae51240f92b423ad4e879a551570b1de4d30d2f736c513828be2211b3d2d9c
+# REPORT_2 LINK: https://app.artillery.io/share/sh_06be067db9b54f9e62578416fda7d5c613e39874588b8a6c9c3675e2c2e542c6
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o spike-traffic-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_4_Spike-Testing\spike-traffic.yml
+
+# Not: Spike testlerinde, özellikle ani patlama aşamasında, sistemin kaynak kullanımını ve yanıt sürelerini dikkatlice izlemek önemlidir. 
+# Sistemin ani yük değişimlerine karşı esnekliğini (Elasticity) test etmek için üç aşamalı bir Spike senaryosu kurgulandı. 
+# Sistemin hem yüke giriş (Ramp-up) hem de yükten çıkış (Ramp-down) anlarındaki kararlılığını 0 hata oranıyla doğrulandı.

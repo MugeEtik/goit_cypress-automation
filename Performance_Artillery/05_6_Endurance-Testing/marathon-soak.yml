@@ -1,0 +1,22 @@
+# Uzun süreli dayanıklılık (Soak test)
+# Bu test türü, sistemin uzun süre boyunca belirli bir yük altında nasıl performans gösterdiğini değerlendirmek için kullanılır. 
+# Amaç, sistemin zamanla nasıl tepki verdiğini ve kaynak kullanımını izlemektir.
+config:
+  target: "https://httpbin.org"               # Test merkezimiz
+  phases:
+    - duration: 60                            # Test 60 saniye sürsün
+      arrivalRate: 2                          # Saniyede 2 yeni sanal kullanıcı gönder (60sn x 2 = 120 kullanıcı)
+      name: "Endurance Test"                  # Testin adı
+scenarios:
+  - name: "Simple GET check"                 # Senaryo adı
+    flow:                                   # Senaryonun akışı
+      - get:
+          url: "/get"                        # Nabız ölçümü yapıyoruz
+      - post:                                  # Herhangi bir POST isteği yapalım
+          url: "/post"   
+          json:                                # Gönderdiğimiz veriyi JSON formatında tanımlayalım
+            name: "Artillery"                    # İstekle birlikte gönderilecek veri (örneğin, bir isim)
+            type: "Performance Testing"          # İstekle birlikte gönderilecek veri (örneğin, bir tür)  
+          headers:                             # İstekle birlikte gönderilecek başlıklar
+            Content-Type: "application/json"     # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
+            Accept: "application/json"           # Kabul edilen içerik türü başlığı, JSON formatında yanıt beklediğimizi belirtir
