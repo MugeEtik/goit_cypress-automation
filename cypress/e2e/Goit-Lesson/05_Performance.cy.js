@@ -17,10 +17,27 @@
  * Performans testleri, projenin ana dizinindeki '/Performance_Artillery' klasörüne taşınmıştır.
  * Bu, mimarinin 'Scalability' (ölçeklenebilirlik) ve Senior derinliğini korur.
  * 
- * * 📍 ACTUAL PERFORMANCE TESTS: /Performance_Artillery/05_Performance.yml
+ * Performance_Artillery/
+├── 01_Load_Testing/           # Beklenen normal yük (Normal Rhythm)
+│   └── normal_usage.yml
+├── 02_Stress_Testing/         # Kırılma noktası analizi (Breaking Point)
+│   └── stress_to_failure.yml
+├── 03_Scalability_Testing/    # Kaynak & Ramp-up analizi (Linear Growth)
+│   └── scaling_analysis.yml
+├── 04_Spike_Testing/          # Ani patlamalar (Mızrak ucu grafiği)
+│   └── spike_traffic.yml
+├── 05_Volume_Testing/         # Büyük veri hacmi (Database focus)
+│   └── large_data_volume.yml
+├── 06_Endurance_Testing/      # Uzun süreli dayanıklılık (Soak test)
+│   └── marathon_soak.yml
+└── data/                      # Volume testleri için CSV/JSON verileri
+    └── payload_data.csv
  * 
- * * 🚀 TO RUN: artillery run Performance_Artillery/05_Performance.yml
+ * * 📍 ACTUAL PERFORMANCE TESTS: /Performance_Artillery/05_Performance-First-Test.yml
  * 
+ * * 🚀 TO RUN: artillery run Performance_Artillery/05_Performance-First-Test.yml
+ * 
+ * * 🧠 PERFORMANCE FIRST MENTALITY:
  * "The ocean is the river's goal" (R.E.M.) - Nehrin (kodun) okyanusa (başarıya) ulaşması için doğru yatağında akması gerekir.
  * 
  * NOTE: Eğer büyük JSON dosyalarını YAML formatına dönüştürmen gerekirse, 

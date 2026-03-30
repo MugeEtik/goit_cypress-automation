@@ -1,0 +1,27 @@
+# Tüm Testlere Nasıl Ekleyeceğiz? (The Global Template)
+# Bu aslında en "Senior" soru. Şöyle düşün: 
+# Elimizde tek bir YAML dosyası var ama 3 farklı "dünya" (Dev, Staging, Prod) var. 
+# Senaryoların (Scenarios) hep aynı, sadece Gidilecek Adres ve Yük Şiddeti değişiyor.
+
+# Tüm testlere entegre edilebilecek "Master Template":
+
+config:
+  target: "https://dev.coffee-app.com" # Varsayılan
+  environments:
+    dev:
+      target: "https://dev.coffee-app.com"
+      phases: [{ duration: 10, arrivalRate: 1 }]
+    staging:
+      target: "https://staging.coffee-app.com"
+      phases: [{ duration: 60, arrivalRate: 5 }]
+    production:
+      target: "https://api.coffee-app.com"
+      phases: [{ duration: 300, arrivalRate: 20 }] # Okyanus yükü!
+
+scenarios:
+  # BURASI HİÇ DEĞİŞMEZ! 
+  # Sen hangi ortamı seçersen seç, aşağıdaki akış o ortamda koşar.
+  - name: "Málaga Coffee Order Flow"
+    flow:
+      - get: { url: "/menu" }
+      - post: { url: "/order", json: { item: "Cortado" } }

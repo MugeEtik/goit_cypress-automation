@@ -1,0 +1,23 @@
+config:
+  target: "https://dev.httpbin.org" # Varsayılan (Default) ortam
+  environments:
+    # 1. Geliştirme Ortamı (Local/Dev)
+    development:
+      target: "https://dev-api.httpbin.org"
+      phases:
+        - duration: 10
+          arrivalRate: 1
+          
+    # 2. Test/Staging Ortamı (Liman gibi, güvenli bölge)
+    staging:
+      target: "https://staging-api.httpbin.org"
+      phases:
+        - duration: 30
+          arrivalRate: 5
+          
+    # 3. Canlı Ortam (The Ocean / Production)
+    production:
+      target: "https://api.httpbin.org"
+      phases:
+        - duration: 60
+          arrivalRate: 10

@@ -1,0 +1,25 @@
+config:
+  target: "https://httpbin.org"
+  processor: "./processor.js" # JS dosyamızı buraya bağlıyoruz!
+  phases:
+    - duration: 5
+      arrivalRate: 1
+      name: "JS Logic Test"
+
+scenarios:
+  - name: "Ordering Coffee with Custom JS Logic"
+    flow:
+      - post:
+          url: "/post"
+          # beforeRequest: JS'deki fonksiyonun ismini yazıyoruz
+          beforeRequest: "prepareCoffeeOrder" 
+          # afterResponse: JS'deki fonksiyonun ismini yazıyoruz
+          afterResponse: "logTheArrival"
+          json:
+            order: "{{ dynamicOrderId }}" # JS'de ürettiğimiz değişkeni kullanıyoruz!
+            user: "Müge"
+      - log: "YAML üzerinden kontrol: Sipariş ID {{ dynamicOrderId }} gönderildi."
+
+# REPORT: https://app.artillery.io/share/sh_e92adf7b07a81b8669866773fd5ac21fa1b0e89837a87861751fee9d64769e61
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o js-processor-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_7_JS-Processor\05_7_JS-Processor.yml

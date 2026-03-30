@@ -1,0 +1,22 @@
+config:
+  target: "https://httpbin.org"       # Fallback (Hiçbiri seçilmezse)
+  environments:
+    development:
+      target: "https://httpbin.org/get?env=dev"     # URL'e minik bir iz bırakıyoruz /mock ortamı ile simülasyon yapabiliriz
+      phases:
+        - duration: 5
+          arrivalRate: 1
+    staging:
+      target: "https://httpbin.org/get?env=staging"  # URL'e minik bir iz bırakıyoruz /mock ortamı ile simülasyon yapabiliriz
+      phases:
+        - duration: 5
+          arrivalRate: 2
+scenarios:
+  - name: "Environment Switcher Test"
+    flow:
+      - get:
+          url: "/"
+
+# REPORT: https://app.artillery.io/share/sh_a2692f42c8b245149e6eca457b34403d02c0259f2d578bc718af6d5ef7da659a
+
+# RUN: artillery run -e staging --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o environment-staging-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_8_Environments\environments.yml

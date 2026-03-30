@@ -1,6 +1,3 @@
-# Büyük veri hacmi (Database focus)
-# Bu test, büyük veri hacmi altında sistemin performansını değerlendirmek için tasarlanmıştır.
-# Bu tür testler, özellikle veri tabanı performansını ve sorgu optimizasyonunu değerlendirmek için önemlidir.
 config:
   target: "https://httpbin.org"               
   phases:                                     
@@ -36,8 +33,8 @@ scenarios:
           capture:
             - json: "$.json"
               as: "responseBody"
-      - log: ">> Data injected: {{ name }} as {{ type }}"                    
+      - log: ">> Veri enjekte edildi: {{ name }} as {{ type }}"                    
                  
-# REPORT: https://app.artillery.io/share/sh_85dfd91e7d7930c0d67861a2f5b6506c5eec6bfe6afaf7d61ae66d430133bbe9
+# REPORT: https://app.artillery.io/share/sh_0502c62242de9d65b209431d2e2b9a8d520bec020a489982b0ce82a650081468
 
-# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o volume-test-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_5_Volume-Testing\large-data-volume.yml
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o second-test-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_0_GoIT_Main_Lesson\05_Second_Lesson.yml

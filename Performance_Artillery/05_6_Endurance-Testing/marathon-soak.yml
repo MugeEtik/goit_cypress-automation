@@ -2,21 +2,36 @@
 # Bu test türü, sistemin uzun süre boyunca belirli bir yük altında nasıl performans gösterdiğini değerlendirmek için kullanılır. 
 # Amaç, sistemin zamanla nasıl tepki verdiğini ve kaynak kullanımını izlemektir.
 config:
-  target: "https://httpbin.org"               # Test merkezimiz
+  target: "https://httpbin.org"
   phases:
-    - duration: 60                            # Test 60 saniye sürsün
-      arrivalRate: 2                          # Saniyede 2 yeni sanal kullanıcı gönder (60sn x 2 = 120 kullanıcı)
-      name: "Endurance Test"                  # Testin adı
+    - duration: 900                           # Test 900 saniye sürsün / 15dk'lık maraton
+      arrivalRate: 2                          # Saniyede 2 yeni sanal kullanıcı gönder (900sn x 2 = 1800 kullanıcı) / Ritmik ve stabil yük
+      name: "Endurance Testings"
+
 scenarios:
-  - name: "Simple GET check"                 # Senaryo adı
-    flow:                                   # Senaryonun akışı
+  - name: "Endurance Journey: Full Life Cycle"
+    flow:
       - get:
-          url: "/get"                        # Nabız ölçümü yapıyoruz
-      - post:                                  # Herhangi bir POST isteği yapalım
-          url: "/post"   
-          json:                                # Gönderdiğimiz veriyi JSON formatında tanımlayalım
-            name: "Artillery"                    # İstekle birlikte gönderilecek veri (örneğin, bir isim)
-            type: "Performance Testing"          # İstekle birlikte gönderilecek veri (örneğin, bir tür)  
-          headers:                             # İstekle birlikte gönderilecek başlıklar
-            Content-Type: "application/json"     # İçerik türü başlığı, JSON formatında veri gönderdiğimizi belirtir
-            Accept: "application/json"           # Kabul edilen içerik türü başlığı, JSON formatında yanıt beklediğimizi belirtir
+          url: "/get"
+      - think: 2                      # Kullanıcı sayfayı inceliyor
+      - post:
+          url: "/post"
+          json:
+            name: "Artillery-Muge"
+            type: "Endurance-Check"
+          capture:
+            - json: "$.json.name"               # Eğer bir name dönüyorsa yakala
+              as: "capturedName"
+      - think: 3                      # İşlem sonrası bekleme
+      - put:
+          url: "/put"                     # Veriyi güncellemeyi dene (System Health kontrolü)
+          json:
+            status: "Sustained"
+            user: "{{ capturedName }}"         # Yakaladığımız veriyi burada kullanarak güncelleme yap
+      - think: 2
+      - delete:
+          url: "/delete"                  # Bellek/Disk şişmesini önlemek için sistem temizliği
+
+# REPORT: https://app.artillery.io/share/sh_edd89bb73f887ba81f91cf35fb7e6ea569ff399f31d253ab729e085a73dddd67
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o soak-test-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\05_6_Endurance-Testing\marathon-soak.yml
