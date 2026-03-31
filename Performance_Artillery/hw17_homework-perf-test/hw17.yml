@@ -1,0 +1,37 @@
+config:
+  target: "https://jsonplaceholder.typicode.com"    # Public API
+  phases:
+    - duration: 60
+      arrivalRate: 5
+      name: "Load Test: Senior QA Evaluation"
+  payload:
+    path: "../data/hw17-data.csv"
+    fields:
+      - "title"
+      - "body"
+    skipHeader: true
+    order: sequence
+  ensure:
+    thresholds:
+      - http.response_time.p95: 500                     # Metrik 1: p95 hızı
+      - http.response_time.p99: 1000                    # Metrik 2: p99 hızı
+    conditions:
+      - expression: vusers.failed == 0                  # Metrik 3: Sıfır hata şartı
+
+scenarios:
+  - name: "Post Management Cycle"
+    flow:
+      - get:
+          url: "/posts/1"                                 # GET isteği
+      - think: 2
+      - post:
+          url: "/posts"                                   # POST isteği
+          json:
+            title: "{{ title }}"
+            body: "{{ body }}"
+            userId: 1
+      - log: "Processed Title: {{ title }}"
+
+# REPORT: https://app.artillery.io/share/sh_f990db1d288f9b9ef47ab019f8f509b11154c9c400fb0ecc70c1dc37f9bff57b
+
+# RUN: artillery run --record --key a9_yzuk07yxm60ipdlsgg2ejtzcx5fwa67w -o homework-report.json D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\Performance_Artillery\hw17_homework-perf-test\hw17.yml
