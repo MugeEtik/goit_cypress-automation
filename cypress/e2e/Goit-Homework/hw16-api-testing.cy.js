@@ -1,7 +1,7 @@
 describe("Mailboxlayer API: End-to-End Validation Suite", () => {
-
-    const baseUrl = Cypress.config('baseUrl'); // Access the base URL from Cypress configuration
-    const apiKey = Cypress.env('MAILBOXLAYER_API_KEY'); // Access the API key from Cypress environment variables
+          
+    const apiUrl = Cypress.env('API_URL_MAILBOX');          // Access the base URL from Cypress environment variables
+    const apiKey = Cypress.env('MAILBOXLAYER_API_KEY');     // Access the API key from Cypress environment variables
 
 // How to securely manage API keys in tests? 
 /* Use environment variables or Cypress config to avoid hardcoding sensitive information in your test files. 
@@ -14,14 +14,10 @@ This way, you can keep your API keys secure and easily manage them across differ
         });
 */
 
-            it('Check if API Key is loaded', () => {
-                cy.log("My Key: " + Cypress.env('MAILBOXLAYER_API_KEY'));
-            });
-
-            it('Check if base URL is loaded', () => {
-                cy.log("Base URL: " + Cypress.config('baseUrl'));
-            });
-
+            it('Check if API Settings are loaded', () => {
+                cy.log("API Key: " + Cypress.env('MAILBOXLAYER_API_KEY'));
+                cy.log("Base URL: " + Cypress.env('API_URL_MAILBOX'));
+            })
 
     context("Security & Authentication", () => {
         it("TC-01_ Unauthorized access: Should fail with invalid API key", () => { 
@@ -37,7 +33,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             /* code */ 
             const rq = {
                 method: 'GET',
-                url: baseUrl,
+                url: apiUrl + '/check',
                 qs: {
                     access_key: "INVALID_KEY_12345",
                     email: "mugeetik@gmail.com"
@@ -61,7 +57,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-02_ Secure access: Should succeed with valid API key", () => { 
+        it.only("TC-02_ Secure access: Should succeed with valid API key", () => { 
     // Expected insights:
     // 200 status code, valid response structure, presence of key validation fields (e.g. email, format_valid, mx_found etc.)
     /* - Check for 200 status code to confirm successful authentication   
@@ -74,7 +70,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             
             const rq = {
                 method: 'GET',
-                url: '/check',  // Use the base URL from Cypress configuration
+                url: apiUrl + '/check',  // Use the base URL from Cypress configuration
                 qs: {
                     access_key: apiKey, // Use the API key from Cypress environment variables   
                     email: "mugeetik@gmail.com"
@@ -105,7 +101,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik.gmail.com" },
                 failOnStatusCode: false
             };
@@ -148,7 +144,7 @@ This way, you can keep your API keys secure and easily manage them across differ
        //didnt work, so we used if-else to check if the API returns an error object or a response with format_valid field, and handle both cases accordingly.
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetikgmail.com" },
                 // Email'i daha 'kırık' bir hale getirdik ki API kesin 'false' desin
                 failOnStatusCode: false
@@ -187,7 +183,7 @@ This way, you can keep your API keys secure and easily manage them across differ
         //didnt work, so we used if-else to check if the API returns an error object or a response with format_valid field, and handle both cases accordingly.
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmaill.com" },
                 failOnStatusCode: false
             };
@@ -225,7 +221,7 @@ This way, you can keep your API keys secure and easily manage them across differ
         //didnt work, so we used if-else to check if the API returns an error object or a response with mx_found field, and handle both cases accordingly.
             const rq = { 
                 method: 'GET', 
-                url: '/check', 
+                url: apiUrl + '/check', 
                 qs: { access_key: apiKey, email: "support@google.com" }, 
                 failOnStatusCode: false 
             };
@@ -256,7 +252,7 @@ This way, you can keep your API keys secure and easily manage them across differ
         //didnt work, so we used if-else to check if the API returns an error object or a response with smtp_check field, and handle both cases accordingly.
             const rq = { 
                 method: 'GET', 
-                url: '/check', 
+                url: apiUrl + '/check', 
                 qs: { access_key: apiKey, email: "nonexistent12345@gmail.com" }, 
                 failOnStatusCode: false 
             };
@@ -277,7 +273,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             
             const rq = { 
                 method: 'GET', 
-                url: '/check', 
+                url: apiUrl + '/check', 
                 qs: { access_key: apiKey, email: "info@apilayer.com" }, 
                 failOnStatusCode: false 
             };
@@ -299,7 +295,7 @@ This way, you can keep your API keys secure and easily manage them across differ
                  
             const rq = { 
                 method: 'GET', 
-                url: '/check', 
+                url: apiUrl + '/check', 
                 qs: { access_key: apiKey, email: "test@mailinator.com" }, 
                 failOnStatusCode: false 
             };
@@ -319,7 +315,7 @@ This way, you can keep your API keys secure and easily manage them across differ
                 
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@yahoo.com" },
                 failOnStatusCode: false
             };
@@ -339,7 +335,7 @@ This way, you can keep your API keys secure and easily manage them across differ
 
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "support@apilayer.com" },
                 failOnStatusCode: false
             };
@@ -361,7 +357,7 @@ This way, you can keep your API keys secure and easily manage them across differ
                
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmail.com" },
                 failOnStatusCode: false
             };
@@ -384,7 +380,7 @@ This way, you can keep your API keys secure and easily manage them across differ
 
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmail.com" },
                 failOnStatusCode: false
             };
@@ -409,7 +405,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmail.com" },
                 failOnStatusCode: false
             };
@@ -434,7 +430,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmail.com" },
                 failOnStatusCode: false
             };
@@ -462,7 +458,7 @@ This way, you can keep your API keys secure and easily manage them across differ
 
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: "mugeetik@gmail.com" },
                 failOnStatusCode: false
             };
@@ -501,7 +497,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             const dynamicEmail = `${randomUser}@gmail.com`;
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { access_key: apiKey, email: dynamicEmail },
                 failOnStatusCode: false
             };
@@ -510,7 +506,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it.only("TC-18_ Case sensitivity test (Muge@ vs muge@)", () => {
+        it("TC-18_ Case sensitivity test (Muge@ vs muge@)", () => {
             // Normalized output
     // Expected insights:
     // 200 status code, response treats email addresses as case-insensitive (e.g. 'Muge@' and 'muge@' are treated the same), proper error handling for case variations
@@ -525,7 +521,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             const inputEmail = "MUGEETIK@gmail.com";
             const rq = {
                 method: 'GET',
-                url: '/check',
+                url: apiUrl + '/check',
                 qs: { 
                     access_key: apiKey, 
                     email: inputEmail 

@@ -1,16 +1,44 @@
 {
   "name": "goit_lesson1",
   "version": "1.0.0",
-  "description": "",
+  "description": "Cypress BDD Automation Framework",
   "main": "cypress.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx cypress run",
+    "cypress:open": "npx cypress open",
+    "cypress:run": "npx cypress run",
+    "cypress:headed": "npx cypress run --headed",
+    "cypress:chrome": "npx cypress run --browser chrome"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "cypress",
+    "cucumber",
+    "bdd",
+    "qa",
+    "test-automation",
+    "javascript",
+    "e2e-testing"
+  ],
+  "author": "Muge",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "cypress": "^15.9.0"
+    "@badeball/cypress-cucumber-preprocessor": "^24.0.1",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "cypress": "^15.9.0",
+    "dotenv": "^17.3.1",
+    "esbuild": "^0.27.4"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": [
+      "cypress/e2e/step_definitions/*.{js,ts}",
+      "cypress/e2e/features/*.{js,ts}"
+    ],
+    "cucumberJson": {
+      "generate": true,
+      "outputFolder": "cypress/reports/cucumber-json",
+      "filePrefix": "",
+      "fileSuffix": ".cucumber"
+    }
   }
 }
