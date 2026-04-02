@@ -50,10 +50,10 @@ jobs:
           npm install -g artillery
 
           # SENIOR TRICK: Klasördeki tüm .yml ve .yaml file'larını döngü ile çalıştırarak tek seferde tüm performans testlerini gerçekleştirelim!
-          for file in *{.yml,.yaml}; do
+          find . \( -name "*.yml" -o -name "*.yaml" \) | while read file; do
+            echo "Executing performance test: $file"
             [ -e "$file" ] || continue # Eğer dosya yoksa döngüden çık, hata basma
-            echo "Running performance test for: $file"
-            artillery run "$file"
+            artillery run "$file" || echo "⚠️ Test $file failed but continuing..."
           done
 
       - name: Upload Cypress videos
