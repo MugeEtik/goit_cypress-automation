@@ -20,7 +20,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             })
 
     context("Security & Authentication", () => {
-        it("TC-01_ Unauthorized access: Should fail with invalid API key", () => { 
+        it.skip("TC-01_ Unauthorized access: Should fail with invalid API key", () => { 
     // Expected insights: 
     // 401/ Invalid key error, no data returned, proper error message in response body
     /* - Check for 401 status code to confirm unauthorized access   
@@ -57,7 +57,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it.only("TC-02_ Secure access: Should succeed with valid API key", () => { 
+        it("TC-02_ Secure access: Should succeed with valid API key", () => { 
     // Expected insights:
     // 200 status code, valid response structure, presence of key validation fields (e.g. email, format_valid, mx_found etc.)
     /* - Check for 200 status code to confirm successful authentication   
@@ -90,7 +90,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("Syntax & Typo: Logical Suggestions", () => {
-        it("TC-03_ Valid email syntax verification: Should detect invalid syntax", () => { 
+        it.skip("TC-03_ Valid email syntax verification: Should detect invalid syntax", () => { 
     // Expected insights:
     // 200 status code, format_valid: false for invalid syntax, proper error message for invalid formats (format_valid: true)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -121,7 +121,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-04_ Invalid email syntax (e.g. muge@etik@com): Should detect invalid syntax", () => { 
+        it.skip("TC-04_ Invalid email syntax (e.g. muge@etik@com): Should detect invalid syntax", () => { 
     // Expected insights:
     // 200 status code, format_valid: false for invalid syntax, proper error message for invalid formats (format_valid: false)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -159,7 +159,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-05_ Should provide 'did_you_mean' for common typos", () => {
+        it.skip("TC-05_ Should provide 'did_you_mean' for common typos", () => {
     // Expected insights:
     // 200 status code, presence of 'did_you_mean' field with suggested correction for common typos (e.g. 'gmaill.com' -> suggest 'gmail.com')
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -198,7 +198,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("Deep Deliverability (MX & SMTP)", () => {
-        it("TC-06_ MX-Record verification for valid domains: Should verify MX records for active domains", () => { 
+        it.skip("TC-06_ MX-Record verification for valid domains: Should verify MX records for active domains", () => { 
     // Expected insights:
     // 200 status code, "mx_found: true" for domains with valid MX records, proper error message for domains without MX records (mx_found: false)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -230,7 +230,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-07_ SMTP check for fake (non-existent) mailboxes: Should fail SMTP check for fake mailboxes", () => { 
+        it.skip("TC-07_ SMTP check for fake (non-existent) mailboxes: Should fail SMTP check for fake mailboxes", () => { 
     // Expected insights:
     // 200 status code, "smtp_check: false" for non-existent mailboxes, proper error message for failed SMTP checks (smtp_check: false)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -262,7 +262,7 @@ This way, you can keep your API keys secure and easily manage them across differ
 
         });
 
-        it("TC-08_ Catch-all email detection logic: Should identify catch-all email addresses", () => { 
+        it.skip("TC-08_ Catch-all email detection logic: Should identify catch-all email addresses", () => { 
     // Expected insights:
     // 200 status code, "catch_all: true/false" for domains configured as catch-all, proper error message for catch-all domains (catch_all: true/false)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -284,7 +284,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("Provider Intelligence (Business Rules)", () => {
-        it("TC-09_ Identifying disposable emails: Should flag disposable email addresses (e.g. mailinator.com)", () => { 
+        it.skip("TC-09_ Identifying disposable emails: Should flag disposable email addresses (e.g. mailinator.com)", () => { 
     // Expected insights:
     // 200 status code, "disposable: true" for known disposable email providers, proper error message for disposable emails (disposable: true)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -304,7 +304,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-10_ Identifying free email providers: Should recognize free email providers (e.g. gmail.com, yahoo.com etc.)", () => { 
+        it.skip("TC-10_ Identifying free email providers: Should recognize free email providers (e.g. gmail.com, yahoo.com etc.)", () => { 
     // Expected insights:
     // 200 status code, "free: true" for known free email providers, proper error message for free email addresses (free: true)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -324,7 +324,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-11_ Role-based addresses detection (admin/support): Should identify role-based addresses (e.g. sales@company.com)", () => { 
+        it.skip("TC-11_ Role-based addresses detection (admin/support): Should identify role-based addresses (e.g. sales@company.com)", () => { 
     // Expected insights:
     // 200 status code, "role: true" for role-based email addresses, proper error message for role-based addresses (role: true)
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -346,7 +346,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("Quality & Consistency", () => {
-        it("TC-12_ Numeric score range check: Should return scores within expected range 0.0 to 1.0", () => { 
+        it.skip("TC-12_ Numeric score range check: Should return scores within expected range 0.0 to 1.0", () => { 
     // Expected insights:
     // 200 status code, "score" field present and numeric, score value between 0.0 and 1.0 for valid emails
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -366,7 +366,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             }); 
         });
 
-        it("TC-13_ High deliverability scores for valid emails: Should return high scores for valid, active email addresses", () => {
+        it.skip("TC-13_ High deliverability scores for valid emails: Should return high scores for valid, active email addresses", () => {
     // Expected insights:
     // 200 status code, "score" field present and numeric, high score value (score > 0.8) for valid, active email addresses
     /* - Check for 200 status code to confirm the API is processing the request   
@@ -391,7 +391,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("System Health: Performance & Metadata", () => {
-        it("TC-14_ LATENCY: Response should be within acceptable limits", () => { 
+        it.skip("TC-14_ LATENCY: Response should be within acceptable limits", () => { 
             // PERFORMANCE TESTING: Response time audits (duration < 500 ms for typical requests)
     // Expected insights:
     // 200 status code, response time less than 500 ms for typical requests, proper error handling for timeouts or slow responses
@@ -415,7 +415,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-15_ SECURITY: Header Validation (JSON Check)", () => { 
+        it.skip("TC-15_ SECURITY: Header Validation (JSON Check)", () => { 
             // SECURITY TESTING: JSON response structure and header validation (e.g. Content-Type: application/json)
     // Expected insights:
     // 200 status code, presence of expected headers (Content-Type: application/json), proper error handling for missing/incorrect headers
@@ -441,7 +441,7 @@ This way, you can keep your API keys secure and easily manage them across differ
     });
 
     context("Data Integrity", () => {
-        it("TC-16_ SCHEMA: Validate response object structure", () => {
+        it.skip("TC-16_ SCHEMA: Validate response object structure", () => {
             // Senior Touch: Response Body Schema Validation
             // SCHEMA VALIDATION: Ensure response objects contain expected keys and structure
     // Expected insights:
@@ -481,7 +481,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-17_ Random Email Data Fuzzing (Math.random)", () => {
+        it.skip("TC-17_ Random Email Data Fuzzing (Math.random)", () => {
             // Dynamic query params
     // Expected insights:
     // 200 status code, response structure remains consistent with random email inputs, proper error handling for invalid/randomized emails
@@ -506,7 +506,7 @@ This way, you can keep your API keys secure and easily manage them across differ
             });
         });
 
-        it("TC-18_ Case sensitivity test (Muge@ vs muge@)", () => {
+        it.skip("TC-18_ Case sensitivity test (Muge@ vs muge@)", () => {
             // Normalized output
     // Expected insights:
     // 200 status code, response treats email addresses as case-insensitive (e.g. 'Muge@' and 'muge@' are treated the same), proper error handling for case variations

@@ -43,9 +43,15 @@ jobs:
         if: always() # Performans testlerini her zaman çalıştır, Cypress testleri başarısız olsa bile.
         run: |
           cd Performance_Artillery
+          echo "Current Directory: $(pwd)"
+          echo "Files in this folder:"
+          ls -R  # Klasörün içindekileri bize listele ki görelim!
+
           npm install -g artillery
-          # SENIOR TRICK: Klasördeki tüm .yml file'larını döngü ile çalıştırarak tek seferde tüm performans testlerini gerçekleştirelim!
-          for file in *.yml; do
+
+          # SENIOR TRICK: Klasördeki tüm .yml ve .yaml file'larını döngü ile çalıştırarak tek seferde tüm performans testlerini gerçekleştirelim!
+          for file in *{.yml,.yaml}; do
+            [ -e "$file" ] || continue # Eğer dosya yoksa döngüden çık, hata basma
             echo "Running performance test for: $file"
             artillery run "$file"
           done
