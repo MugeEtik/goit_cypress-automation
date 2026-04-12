@@ -1,6 +1,5 @@
-/*
-go to this file to see the code:
-
-D:\Projects_and_Git-Repos\GoIT_Homeworks\HW-14-19\.github\workflows\test.yml
-
-*/
+/**
+ * 🚀 CI/CD LESSON REDIRECT
+ * The GitHub Actions workflow for this lesson is located in the root directory.
+ * 📍 Path: .github/workflows/test.yml
+ */

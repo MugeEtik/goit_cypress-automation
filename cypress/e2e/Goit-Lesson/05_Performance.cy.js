@@ -13,29 +13,27 @@
  * Artillery .yml (YAML) formatında çalışır ve CLI üzerinden koşturulur. 
  * Cypress execution engine, YAML dosyalarını 'test suite' olarak tanımaz.
  * 
- * * 3. EVERYTHING IN ITS RIGHT PLACE: 
- * Performans testleri, projenin ana dizinindeki '/Performance_Artillery' klasörüne taşınmıştır.
+ * * 3. ⚡ PERFORMANCE TESTING: EVERYTHING IN ITS RIGHT PLACE
+ * * Performans mimarisi, monolitik yapıdan modüler 'Performance_Artillery' ekosistemine evrilmiştir. 
+ * Bu düzenleme, sistemin her bir stres faktörünü ayrı bir frekansta analiz etmemize olanak tanır.
  * Bu, mimarinin 'Scalability' (ölçeklenebilirlik) ve Senior derinliğini korur.
  * 
- * Performance_Artillery/
-├── 01_Load_Testing/           # Beklenen normal yük (Normal Rhythm)
-│   └── normal_usage.yml
-├── 02_Stress_Testing/         # Kırılma noktası analizi (Breaking Point)
-│   └── stress_to_failure.yml
-├── 03_Scalability_Testing/    # Kaynak & Ramp-up analizi (Linear Growth)
-│   └── scaling_analysis.yml
-├── 04_Spike_Testing/          # Ani patlamalar (Mızrak ucu grafiği)
-│   └── spike_traffic.yml
-├── 05_Volume_Testing/         # Büyük veri hacmi (Database focus)
-│   └── large_data_volume.yml
-├── 06_Endurance_Testing/      # Uzun süreli dayanıklılık (Soak test)
-│   └── marathon_soak.yml
-└── data/                      # Volume testleri için CSV/JSON verileri
-    └── payload_data.csv
- * 
- * * 📍 ACTUAL PERFORMANCE TESTS: /Performance_Artillery/05_Performance-First-Test.yml
- * 
- * * 🚀 TO RUN: artillery run Performance_Artillery/05_Performance-First-Test.yml
+* * 📍 PROJECT ROOT PATHS:
+ * * Performance_Artillery/
+ * ├── 05_0_GoIT_Main_Lesson/       # Ana ders içerikleri (Foundation)
+ * ├── 05_1_Load-Testing/           # Beklenen normal yük (Normal Rhythm)
+ * ├── 05_2_Stress-Testing/         # Kırılma noktası analizi (Breaking Point)
+ * ├── 05_3_Scalability-Testing/    # Kaynak & Ramp-up analizi (Linear Growth)
+ * ├── 05_4_Spike-Testing/          # Ani trafik patlamaları (Mızrak ucu grafiği)
+ * ├── 05_5_Volume-Testing/         # Büyük veri hacmi (Database focus)
+ * ├── 05_6_Endurance-Testing/      # Uzun süreli dayanıklılık (Soak test)
+ * ├── 05_7_JS-Processor/           # Custom Logic & Scripting (Logic Engine)
+ * ├── 05_8_Environments/           # Staging vs. Real-World (Multi-orbit)
+ * ├── data/                        # CSV/JSON veri setleri (The Fuel)
+ * └── hw17_homework-perf-test/     # Homework specific tests
+ *
+ * 🚀 TO RUN A MODULE (Example):
+ *      artillery run Performance_Artillery/05_1_Load-Testing/normal-usage.yml
  * 
  * * 🧠 PERFORMANCE FIRST MENTALITY:
  * "The ocean is the river's goal" (R.E.M.) - Nehrin (kodun) okyanusa (başarıya) ulaşması için doğru yatağında akması gerekir.
