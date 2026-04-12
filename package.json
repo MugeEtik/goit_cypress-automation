@@ -8,7 +8,8 @@
     "cypress:open": "npx cypress open",
     "cypress:run": "npx cypress run",
     "cypress:headed": "npx cypress run --headed",
-    "cypress:chrome": "npx cypress run --browser chrome"
+    "cypress:chrome": "npx cypress run --browser chrome",
+    "test:bdd": "cypress run --spec '**/*.feature'"
   },
   "keywords": [
     "cypress",
