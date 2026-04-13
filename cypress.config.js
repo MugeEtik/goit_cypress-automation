@@ -10,6 +10,7 @@ module.exports = defineConfig({
   projectId: 'shfju6',                              // Mevcut Project ID'si --- Root Level
 
   e2e: {                                            // E2E Level starts
+    userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36', // Gerçekçi bir User-Agent ekleyelim
     baseUrl: "https://www.edu.goit.global/account/login",    // main base url    
     
     // Hem BDD (.feature) hem de klasik E2E (.cy.js) testlerini görmesi için:

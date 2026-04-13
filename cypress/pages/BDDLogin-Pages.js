@@ -20,10 +20,11 @@ export class LoginPage {
     
     if (targetUrl) {
       cy.visit(targetUrl); // Navigate to the target URL
-    } else {  
+    } 
+    else {  
       throw new Error(`Page "${pageName}" not found in pageUrls. Please check the page name and update the pageUrls object.`);
     }
-     }
+  }
 
   login(email, password) {
     // Standard login flow
